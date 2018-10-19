@@ -30,3 +30,6 @@ Default is a 150ms delay between every food drop.
 # Graphics
 The graphical output is realized with pygame using primitivs
 and DejaVuSansMono.
+![alt text][logo]
+
+[logo]: excerpt.png
