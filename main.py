@@ -104,7 +104,6 @@ if __name__ == "__main__":
                 cloned_dna = event.blob.dna
                 if random.random() < BLOB_MUTATION_RATE:
                     cloned_dna[0] += int((1 - random.random() * 2) * BLOB_SIZE_MUTATION_STRENGTH)
-                    cloned_dna[0] = abs(cloned_dna[0])
                     # Ensure logical borders
                     if cloned_dna[0] < BLOB_MIN_SIZE:
                         cloned_dna[0] = BLOB_MIN_SIZE
