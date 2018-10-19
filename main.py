@@ -16,6 +16,9 @@ from environment import BLOB_SIZE_MUTATION_STRENGTH
 from environment import BLOB_HT_MUTATION_STRENGTH
 from environment import FOOD_MAX_SIZE
 
+"""
+Events to controll the environment
+"""
 FEED_EVENT = pygame.USEREVENT + 0
 MUTATION_DECREASE_EVENT = pygame.USEREVENT + 1
 
@@ -52,6 +55,11 @@ if __name__ == "__main__":
 
     maxX = 1366
     maxY = 768
+    """
+    Initialise the screen with maxX and maxY as dimension
+    and initialise the clock. The clock is used to throw
+    environment events.
+    """
     screen = pygame.display.set_mode((maxX, maxY))
     clock = pygame.time.Clock()
     running = True
@@ -62,6 +70,9 @@ if __name__ == "__main__":
     # Set the second passed timer
     pygame.time.set_timer(MUTATION_DECREASE_EVENT, 1000)
 
+    """
+    The blobs and foods arrays containing every object of the ecosystem
+    """
     blobs = []
     foods = []
     for i in range(0, 80):
@@ -94,18 +105,21 @@ if __name__ == "__main__":
                 if random.random() < BLOB_MUTATION_RATE:
                     cloned_dna[0] += int((1 - random.random() * 2) * BLOB_SIZE_MUTATION_STRENGTH)
                     cloned_dna[0] = abs(cloned_dna[0])
+                    # Ensure logical borders
                     if cloned_dna[0] < BLOB_MIN_SIZE:
                         cloned_dna[0] = BLOB_MIN_SIZE
                     if cloned_dna[0] > BLOB_MAX_SIZE:
                         cloned_dna[0] = BLOB_MAX_SIZE
                     cloned_dna[1] += (1 - random.random() * 2) * BLOB_HT_MUTATION_STRENGTH
+                    # Ensure logical borders
                     if cloned_dna[1] < 0:
                         cloned_dna[1] = 0
                     if cloned_dna[1] > 1:
                         cloned_dna[1] = 1
+                # Add the blob with the half of the parent health.
                 blobs.append(blob(event.blob.position, cloned_dna, event.blob.health / 2))
 
-        # Update all blobs
+        # Update all blobs (no need to update food)
         for b in blobs:
             b.update(foods, timing_factor)
 
@@ -115,6 +129,7 @@ if __name__ == "__main__":
             f.draw(screen)
         for b in blobs:
             b.draw(screen)
+        # Render the mutation rate
         info_surface = font.render(str(BLOB_MUTATION_RATE), False, (255, 255, 255))
         screen.blit(info_surface, (10, 10))
         pygame.display.flip()
